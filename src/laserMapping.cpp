@@ -59,6 +59,14 @@
 #include <livox_ros_driver/CustomMsg.h>
 #include "preprocess.h"
 #include <ikd-Tree/ikd_Tree.h>
+#include <string> 
+#include <string> 
+#include <string> 
+#include <string> 
+#include <string> 
+#include <string> 
+#include <string> 
+#include <string> 
 
 #define INIT_TIME           (0.1)
 #define LASER_POINT_COV     (0.001)
@@ -138,6 +146,7 @@ geometry_msgs::PoseStamped msg_body_pose;
 
 shared_ptr<Preprocess> p_pre(new Preprocess());
 shared_ptr<ImuProcess> p_imu(new ImuProcess());
+
 
 void SigHandle(int sig)
 {
@@ -600,6 +609,24 @@ void publish_odometry(const ros::Publisher & pubOdomAftMapped)
         odomAftMapped.pose.covariance[i*6 + 5] = P(k, 2);
     }
 
+    // Save pose and timestamp to the file
+    std::ofstream poseFile;
+    const std::string outputFilePath = "/home/malik/ws_livox/output/pose.txt";
+    poseFile.open(outputFilePath, std::ios_base::app); // Open in append mode
+    //poseFile << "# timestamp,tx,ty,tz,qx,qy,qz,qw\n";
+
+    poseFile << odomAftMapped.header.stamp.toSec() << " "
+             << odomAftMapped.pose.pose.position.x << " "
+             << odomAftMapped.pose.pose.position.y << " "
+             << odomAftMapped.pose.pose.position.z << " "
+             << odomAftMapped.pose.pose.orientation.x << " "
+             << odomAftMapped.pose.pose.orientation.y << " "
+             << odomAftMapped.pose.pose.orientation.z << " "
+             << odomAftMapped.pose.pose.orientation.w << std::endl;
+
+    poseFile.close(); // Close the file after writing
+
+
     static tf::TransformBroadcaster br;
     tf::Transform                   transform;
     tf::Quaternion                  q;
@@ -612,6 +639,7 @@ void publish_odometry(const ros::Publisher & pubOdomAftMapped)
     q.setZ(odomAftMapped.pose.pose.orientation.z);
     transform.setRotation( q );
     br.sendTransform( tf::StampedTransform( transform, odomAftMapped.header.stamp, "camera_init", "body" ) );
+        
 }
 
 void publish_path(const ros::Publisher pubPath)
@@ -1043,6 +1071,6 @@ int main(int argc, char** argv)
         }
         fclose(fp2);
     }
-
+   
     return 0;
 }
