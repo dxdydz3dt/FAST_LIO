@@ -608,7 +608,7 @@ void publish_odometry(const ros::Publisher & pubOdomAftMapped)
 
     // Check if the file is empty, if so, add the header line
     if (poseFile.tellp() == 0) {
-    poseFile << "# timestamp tx ty tz qx qy qz qw\n";
+    poseFile << "#timestamp tx ty tz qx qy qz qw\n";
     }
 
     poseFile << std::fixed << std::setprecision(6)<< odomAftMapped.header.stamp.toSec() << " "
