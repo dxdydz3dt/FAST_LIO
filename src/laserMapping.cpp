@@ -612,7 +612,6 @@ void publish_odometry(const ros::Publisher & pubOdomAftMapped)
 
     // Save pose and timestamp to the file
     std::ofstream poseFile;
-<<<<<<< HEAD
     const std::string outputFilePath = "/home/malik/catkin_ws_FAST_LIO/output/pose.txt";
     poseFile.open(outputFilePath, std::ios_base::app); // Open in append mode
 
@@ -622,13 +621,6 @@ void publish_odometry(const ros::Publisher & pubOdomAftMapped)
     }
 
     poseFile << std::fixed << std::setprecision(6)<< odomAftMapped.header.stamp.toSec() << " "
-=======
-    const std::string outputFilePath = "/home/malik/ws_livox/output/pose.txt";
-    poseFile.open(outputFilePath, std::ios_base::app); // Open in append mode
-    //poseFile << "# timestamp,tx,ty,tz,qx,qy,qz,qw\n";
-
-    poseFile << odomAftMapped.header.stamp.toSec() << " "
->>>>>>> 855ccbf750e964da2f01a9ea6b3a1e7508637857
              << odomAftMapped.pose.pose.position.x << " "
              << odomAftMapped.pose.pose.position.y << " "
              << odomAftMapped.pose.pose.position.z << " "
@@ -637,12 +629,7 @@ void publish_odometry(const ros::Publisher & pubOdomAftMapped)
              << odomAftMapped.pose.pose.orientation.z << " "
              << odomAftMapped.pose.pose.orientation.w << std::endl;
 
-<<<<<<< HEAD
     poseFile.close();
-=======
-    poseFile.close(); // Close the file after writing
-
->>>>>>> 855ccbf750e964da2f01a9ea6b3a1e7508637857
 
     static tf::TransformBroadcaster br;
     tf::Transform                   transform;
@@ -1093,11 +1080,7 @@ int main(int argc, char** argv)
         }
         fclose(fp2);
     }
-<<<<<<< HEAD
     
-=======
-   
->>>>>>> 855ccbf750e964da2f01a9ea6b3a1e7508637857
     return 0;
    
 }
